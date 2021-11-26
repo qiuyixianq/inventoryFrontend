@@ -1,26 +1,25 @@
-import React from 'react';
-import { allItemDetails } from './graphQL/query';
-import { useQuery } from '@apollo/client';
-import { ItemsData, Items } from './graphQL/Types';
+import React, { useState } from "react";
+import { Nav } from "./components/Nav";
+import { ItemLayout } from "./components/Items/ItemLayout";
+import { TransactionLayout } from "./components/Transactions/TransactionLayout";
+
+const screens = ["item", "transaction"];
 
 function App() {
-	const { loading, data } = useQuery<ItemsData, Items>(allItemDetails);
-	if (loading) return <p>Loading</p>;
-	if (!data) return <p>Data Not Found</p>;
-	console.log(data);
 
-	return (
-		<div className="App">
-			<h1>Data from graphql</h1>
-			{data.getAllItems.map((item) => (
-				<div className="">
-					<h1>Name: {item.name}</h1>
-					<h1>ID: {item.id}</h1>
-					<h1>quantity: {item.quantity}</h1>
-				</div>
-			))}
-		</div>
-	);
+    const [view, setView] = useState<string>(screens[0]);
+
+    return (
+        <>
+            <div className="bg-gray-800 w-screen flex justify-center">
+                <Nav view={view} setView={setView} screens={screens} />
+            </div>
+
+            <div className="flex w-screen justify-center">
+                {view === screens[0] ? <ItemLayout/> : <TransactionLayout />}
+            </div>
+        </>
+    );
 }
 
 export default App;

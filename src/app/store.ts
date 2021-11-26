@@ -1,9 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import itemReducer from '../components/Items/itemSlice';
+
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    itemQL: itemReducer,
   },
 });
 
@@ -15,3 +16,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+//Should item from graphql store to state: tldr- no;
+// https://github.com/trojanowski/react-apollo-hooks/issues/158
