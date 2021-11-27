@@ -1,7 +1,7 @@
 import { Items } from "../../graphQL/Types";
 import { DELETE_ITEM, EDIT_ITEM, ADD_SELL_ITEM } from "../../graphQL/mutation";
 import { useMutation } from "@apollo/client";
-import { FILTER_ITEMS } from "../../graphQL/query";
+import { FILTER_ITEMS, FILTER_TRANSACTION } from "../../graphQL/query";
 import { useState } from "react";
 
 type Props = {
@@ -45,7 +45,7 @@ export const Item = ({ item }: Props) => {
                         <div className="flex flex-col space-y-2 justify-center ">
                             <h1 className='w-full text-center mb-2'>Quantity to {isEditQuanti.types}:</h1>
                             <input type="number" className="input" onChange={ e => setItemQuantity(isEditQuanti.types === 'ADD'? +e.target.value : -e.target.value) } />
-                            <button className="btn btn-primary" onClick={() => addSellItem({variables: { addMinusItemQuantityId: item.id, quantity: itemQuantity }}) }>ADD</button>
+                            <button className="btn btn-primary" onClick={() => addSellItem({variables: { addMinusItemQuantityId: item.id, quantity: itemQuantity },refetchQueries: [{ query: FILTER_TRANSACTION }]}) }>ADD</button>
                             <button className="btn" onClick={() => setIsEditQuanti({types: '', isEditing: false})}>Cancel</button>
                         </div>
                     </div>
@@ -103,20 +103,20 @@ export const Item = ({ item }: Props) => {
             {renderAddSellModal()}
             <div className="flex">
                 <h1 className="mr-3">
-                    <span className="badge mr-1">ID: </span>
+                    <span className="badge mr-1">ID</span>
                     {item.id}
                 </h1>
                 <h1 className="mr-3">{item.name}</h1>
                 <h1 className="mr-3">
-                    <span className="badge mr-1">Brand:</span>
+                    <span className="badge mr-1">Brand</span>
                     {item.brand}
                 </h1>
                 <h1 className="mr-3">
-                    <span className="badge mr-1">MYR:</span>
+                    <span className="badge mr-1">$</span>
                     {item.price}
                 </h1>
                 <h1 className="mr-3">
-                    <span className="badge mr-1">Quantity:</span>
+                    <span className="badge mr-1">Quantity</span>
                     {item.quantity}
                 </h1>
             </div>

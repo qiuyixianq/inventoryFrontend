@@ -9,5 +9,11 @@ export const FILTER_ITEMS = gql`
     }
 `
 
-
+export const FILTER_TRANSACTION = gql`
+    query($itemId:Int, $brand: String, $dateFrom:Float, $dateTo:Float){
+        getTransactionByFilter(itemId: $itemId, brand: $brand, dateFrom: $dateFrom, dateTo:$dateTo) {
+            transId itemId name brand price quantity date
+    }
+}
+`
 

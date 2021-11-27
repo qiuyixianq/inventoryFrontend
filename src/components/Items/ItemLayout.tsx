@@ -101,14 +101,17 @@ export const ItemLayout = () => {
                 getItemsByFilter={getItemsByFilter}
             />
 
-            <div className="flex flex-row-reverse w-screen">
-                <button className="btn btn-accent m-2 text-black" onClick={() => setIsAddItem(true)}>New Item</button>
-            </div>
             <div className="absolute flex justify-center z-10 mx-auto w-full left-0 right-0 ">
                 {renderAddItemModal()}
             </div>
 
-            <div className="relative w-3/4 mx-auto">{renderItems()}</div>
+            <div className="relative w-3/4 mx-auto">
+            <div className="flex flex-row-reverse mx-10 mt-4">
+                <button className="btn btn-accent text-black" onClick={() => setIsAddItem(true)}>New Item</button>
+            </div>
+                {renderItems()}
+                
+                </div>
         </div>
     );
 };
