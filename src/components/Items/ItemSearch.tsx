@@ -12,7 +12,7 @@ export const ItemSearch = (props: Props) => {
     return (
         <div>
             <div className="p-3 bg-base-200 w-screen rounded-none ">
-                <div className="flex space-x-2 justify-center">
+                <div className="flex flex-row space-x-2 justify-center">
                     <div>
                         <label className="label">
                             <span className="label-text">Item Name</span>
@@ -65,6 +65,7 @@ export const ItemSearch = (props: Props) => {
 
                         <input
                             type="number"
+                            placeholder='Min'
                             className="input w-1/3"
                             onChange={(e) =>
                                 setFilters({
@@ -76,7 +77,7 @@ export const ItemSearch = (props: Props) => {
                         <span className="mx-1">-</span>
                         <input
                             type="number"
-                            min={100}
+                            placeholder='Max'
                             className="input w-1/3"
                             onChange={(e) =>
                                 setFilters({
@@ -94,6 +95,7 @@ export const ItemSearch = (props: Props) => {
 
                         <input
                             type="number"
+                            placeholder='Min'
                             className="input w-1/3"
                             onChange={(e) =>
                                 setFilters({
@@ -105,6 +107,7 @@ export const ItemSearch = (props: Props) => {
                         <span className="mx-1">-</span>
                         <input
                             type="number"
+                            placeholder='Max'
                             className="input w-1/3"
                             onChange={(e) =>
                                 setFilters({

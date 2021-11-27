@@ -1,13 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const allItemDetails = gql`
-    query{
-        getAllItems{
-            name id brand price quantity
-        }
-    }
-`
-
 export const FILTER_ITEMS = gql`
     query($name:String, $id:Int, $brand:String, $priceFrom:Float, $priceTo:Float,
     $quantityFrom:Int, $quantityTo:Int){
