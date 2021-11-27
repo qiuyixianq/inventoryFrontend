@@ -45,7 +45,6 @@ export const TransactionLayout = () => {
             />
 
             <div className="relative w-3/4 mx-auto">
-                
                 <table className="table w-full table-zebra mt-5">
                     <thead>
                         <th>Transaction ID</th>
@@ -54,11 +53,24 @@ export const TransactionLayout = () => {
                         <th>Brand</th>
                         <th>$</th>
                         <th>Quantity</th>
-                        <th>Date</th>
+                        <th id="transaction-date">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
+                        </th>
                     </thead>
-                    <tbody>
-                        {renderTransactions()}
-                    </tbody>
+                    <tbody>{renderTransactions()}</tbody>
                 </table>
             </div>
         </div>

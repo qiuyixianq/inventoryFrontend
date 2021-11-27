@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { TransFilters } from "./TransactionLayout";
 
 type Props = {
@@ -12,7 +11,7 @@ export const TransactionSearch = (props: Props) => {
 
     return (
         <div className="p-3 bg-base-200 w-screen rounded-none">
-            <div className="flex flex-row space-x-2 justify-center">
+            <div className="flex flex-row space-x-2 justify-center items-center">
                 <div>
                     <label className="label">
                         <span className="label-text">Item ID</span>
@@ -73,7 +72,28 @@ export const TransactionSearch = (props: Props) => {
                     />
                 </div>
 
-                <button onClick={() => getTransactionByFilters({ variables: {...filters }})}>Search</button>
+                <button
+                    id="search-transaction"
+                    className="btn"
+                    onClick={() =>
+                        getTransactionByFilters({ variables: { ...filters } })
+                    }
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                    </svg>
+                </button>
             </div>
         </div>
     );
