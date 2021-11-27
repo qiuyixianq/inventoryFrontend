@@ -22,3 +22,11 @@ export const EDIT_ITEM = gql`
         }
     }
 `
+
+export const ADD_SELL_ITEM = gql`
+    mutation($addMinusItemQuantityId: Int!, $quantity: Int!) {
+        addMinusItemQuantity(id: $addMinusItemQuantityId, quantity: $quantity) {
+            id name quantity
+    }
+}
+`

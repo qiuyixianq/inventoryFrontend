@@ -1,5 +1,5 @@
 import { Items } from "../../graphQL/Types";
-import { DELETE_ITEM, EDIT_ITEM } from "../../graphQL/mutation";
+import { DELETE_ITEM, EDIT_ITEM, ADD_SELL_ITEM } from "../../graphQL/mutation";
 import { useMutation } from "@apollo/client";
 import { FILTER_ITEMS } from "../../graphQL/query";
 import { useState } from "react";
@@ -8,14 +8,24 @@ type Props = {
     item: Items;
 };
 
+type ADD_SELL = {
+    types: string;
+    isEditing: boolean;
+};
+
 export const Item = ({ item }: Props) => {
+    //deletion
     const [deleteItem] = useMutation(DELETE_ITEM);
+    //editing all data
     const [editItem] = useMutation(EDIT_ITEM);
     const [isEditing, setIsEditing] = useState<Boolean>(false);
-    const [editData, setEditData] = useState<Items | any>({
-        modifyItemId: item.id,
-        ...item,
-    });
+    const [editData, setEditData] = useState<Items | any>({modifyItemId: item.id,...item,});
+    
+    //add / sell item (sell involve transaction);
+    const [isEditQuanti, setIsEditQuanti] = useState<ADD_SELL>({types: "",isEditing: false,});
+    const [addSellItem] = useMutation(ADD_SELL_ITEM);
+    const [itemQuantity, setItemQuantity] = useState<number>(0);
+
 
     const handleEdit = () => {
         //end editing & fire update to graphql.mutate
@@ -24,6 +34,24 @@ export const Item = ({ item }: Props) => {
             variables: { ...editData },
             refetchQueries: [{ query: FILTER_ITEMS }],
         });
+    };
+
+    const renderAddSellModal = () => {
+        
+        if (isEditQuanti.isEditing) {
+            return (
+                <div className="absolute flex justify-center z-10 mx-auto w-full left-0 right-0 top-0">
+                    <div className="modal-box bg-gray-800">
+                        <div className="flex flex-col space-y-2 justify-center ">
+                            <h1 className='w-full text-center mb-2'>Quantity to {isEditQuanti.types}:</h1>
+                            <input type="number" className="input" onChange={ e => setItemQuantity(isEditQuanti.types === 'ADD'? +e.target.value : -e.target.value) } />
+                            <button className="btn btn-primary" onClick={() => addSellItem({variables: { addMinusItemQuantityId: item.id, quantity: itemQuantity }}) }>ADD</button>
+                            <button className="btn" onClick={() => setIsEditQuanti({types: '', isEditing: false})}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     };
 
     //render editing form
@@ -72,7 +100,7 @@ export const Item = ({ item }: Props) => {
     //render display box
     return (
         <div className="flex justify-between bg-primary p-3 m-10 rounded-lg">
-            {/* {renderEditForm()} */}
+            {renderAddSellModal()}
             <div className="flex">
                 <h1 className="mr-3">
                     <span className="badge mr-1">ID: </span>
@@ -97,10 +125,20 @@ export const Item = ({ item }: Props) => {
                 <button className="mr-3 p-1" onClick={() => setIsEditing(true)}>
                     Edit
                 </button>
-                <button className="mr-3 p-1 rounded-lg text-black bg-success">
+                <button
+                    className="mr-3 p-1 rounded-lg text-black bg-success"
+                    onClick={() =>
+                        setIsEditQuanti({ types: "ADD", isEditing: true })
+                    }
+                >
                     ADD
                 </button>
-                <button className="mr-3 p-1 rounded-lg text-black bg-error">
+                <button
+                    className="mr-3 p-1 rounded-lg text-black bg-error"
+                    onClick={() =>
+                        setIsEditQuanti({ types: "SELL", isEditing: true })
+                    }
+                >
                     SELL
                 </button>
                 <button
