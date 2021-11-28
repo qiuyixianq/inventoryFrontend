@@ -56,6 +56,7 @@ export const ItemLayout = () => {
         if (isAddItem)
             return (
                 <div className="modal-box bg-gray-800">
+                        <h1 className="text-white ml-5">Add New Item</h1>
                     <div className="flex flex-wrap justify-around">
                         <input
                             type="text"

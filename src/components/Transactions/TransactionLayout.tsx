@@ -17,6 +17,7 @@ export const TransactionLayout = () => {
     const [getTransactionByFilters, { loading, data, fetchMore }] =
         useLazyQuery(FILTER_TRANSACTION);
 
+    //fetch data for the 1st time since it's lazy
     useEffect(() => {
         getTransactionByFilters({ variables: {} });
         //eslint-disable-next-line
@@ -28,13 +29,6 @@ export const TransactionLayout = () => {
             variables: {
                 ...filters,
                 transId: data.getTransactionByFilter.at(-1).transId,
-            },
-            updateQuery: (prevResult, { fetchMoreResult }) => {
-                fetchMoreResult.getTransactionByFilter = [
-                    ...prevResult.getTransactionByFilter,
-                    ...fetchMoreResult.getTransactionByFilter,
-                ];
-                return fetchMoreResult;
             },
         });
     };

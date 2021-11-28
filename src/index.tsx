@@ -6,9 +6,23 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+//cache docs https://www.apollographql.com/docs/react/caching/cache-field-behavior/
 const client = new ApolloClient({
 	uri: 'http://localhost:3001/graphql',
-	cache: new InMemoryCache()
+	cache: new InMemoryCache({
+		typePolicies:{
+			Query:{
+				fields:{
+					getTransactionByFilter: {
+						keyArgs: false,
+						merge(existing = [], incoming: any[]){
+							return [...existing, ...incoming]
+						}
+					}
+				}
+			}
+		}
+	})
 });
 
 ReactDOM.render(
