@@ -14,13 +14,30 @@ export type TransFilters = {
 
 export const TransactionLayout = () => {
     const [filters, setFilters] = useState<TransFilters>({});
-    const [getTransactionByFilters, { loading, data }] =
+    const [getTransactionByFilters, { loading, data, fetchMore }] =
         useLazyQuery(FILTER_TRANSACTION);
 
     useEffect(() => {
         getTransactionByFilters({ variables: {} });
         //eslint-disable-next-line
     }, []);
+
+    const handleFetchMore = () => {
+        //transactionId is being used as cursor
+        fetchMore({
+            variables: {
+                ...filters,
+                transId: data.getTransactionByFilter.at(-1).transId,
+            },
+            updateQuery: (prevResult, { fetchMoreResult }) => {
+                fetchMoreResult.getTransactionByFilter = [
+                    ...prevResult.getTransactionByFilter,
+                    ...fetchMoreResult.getTransactionByFilter,
+                ];
+                return fetchMoreResult;
+            },
+        });
+    };
 
     const renderTransactions = () => {
         if (loading)
@@ -72,6 +89,15 @@ export const TransactionLayout = () => {
                     </thead>
                     <tbody>{renderTransactions()}</tbody>
                 </table>
+            </div>
+
+            <div className="w-full flex justify-center my-10">
+                <button
+                    className={`btn btn-primary`}
+                    onClick={() => handleFetchMore()}
+                >
+                    fetch more
+                </button>
             </div>
         </div>
     );
