@@ -1,7 +1,8 @@
 import { Transactions } from '../../graphQL/Types'
 
 type Props = {
-    trans: Transactions
+    trans: Transactions;
+    
 }
 
 export const Transaction = ({trans} : Props) => {

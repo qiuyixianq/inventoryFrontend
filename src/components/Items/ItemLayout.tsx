@@ -38,7 +38,7 @@ export const ItemLayout = () => {
         });
     };
 
-    const renderItems = () => {
+    const renderItems = () : React.ReactElement | JSX.Element => {
         if (loading)
             return (
                 <div className="absolute flex justify-center z-10 mx-auto w-full left-0 right-0 loading p-10">
@@ -47,12 +47,12 @@ export const ItemLayout = () => {
             );
         if (data)
             return data.getItemsByFilter.map((item: Items) => (
-                <Item item={item} />
+                <Item item={item} key={item.id} />
             ));
         return <></>;
     };
 
-    const renderAddItemModal = () => {
+    const renderAddItemModal = () : React.ReactElement | JSX.Element => {
         if (isAddItem)
             return (
                 <div className="modal-box bg-gray-800">
@@ -147,9 +147,9 @@ export const ItemLayout = () => {
                             stroke="currentColor"
                         >
                             <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
                             />
                         </svg>
