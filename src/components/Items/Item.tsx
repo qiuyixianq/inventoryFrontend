@@ -108,7 +108,7 @@ export const Item = ({ item }: Props) => {
                 <input
                     type="text"
                     placeholder="Name"
-                    className="rounded-sm p-1 mx-2"
+                    className="rounded-md p-1 mx-2"
                     onChange={(e) =>
                         setEditData({ ...editData, name: e.target.value })
                     }
@@ -116,7 +116,7 @@ export const Item = ({ item }: Props) => {
                 <input
                     type="text"
                     placeholder="Brand"
-                    className="rounded-sm p-1 mx-2"
+                    className="rounded-md p-1 mx-2"
                     onChange={(e) =>
                         setEditData({ ...editData, brand: e.target.value })
                     }
@@ -124,7 +124,7 @@ export const Item = ({ item }: Props) => {
                 <input
                     type="number"
                     placeholder="Price"
-                    className="rounded-sm p-1 mx-2"
+                    className="rounded-md p-1 mx-2"
                     onChange={(e) =>
                         setEditData({ ...editData, price: +e.target.value })
                     }
@@ -132,7 +132,7 @@ export const Item = ({ item }: Props) => {
                 <input
                     type="number"
                     placeholder="Quantity"
-                    className="rounded-sm p-1 mx-2"
+                    className="rounded-md p-1 mx-2"
                     onChange={(e) =>
                         setEditData({ ...editData, quantity: +e.target.value })
                     }

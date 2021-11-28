@@ -5,6 +5,7 @@ import { Items } from "../../graphQL/Types";
 import { ItemSearch } from "./ItemSearch";
 import { Item } from "./Item";
 import { ADD_ITEM } from "../../graphQL/mutation";
+import ReactPaginate from "react-paginate";
 
 export type Filters = {
     name?: string;
@@ -24,11 +25,28 @@ export const ItemLayout = () => {
     const [addItem] = useMutation(ADD_ITEM);
     const [isAddItem, setIsAddItem] = useState<Boolean>(false);
     const [newItem, setNewItem] = useState<Items | any>();
+    //pagination config
+    const [currentItems, setCurrentItems] = useState<Array<any>>([]);
+    const [page, setPage] = useState<number>(0);
+    const itemsPerPage: number = 5;
 
+    
+    //fetch data for the 1st time
     useEffect(() => {
-        getItemsByFilter();
+        getItemsByFilter().then((res) => {
+            const endOffset = itemsPerPage;
+            setCurrentItems(res.data.getItemsByFilter.slice(0, endOffset));
+            setPage(Math.ceil(res.data.getItemsByFilter.length / itemsPerPage));
+        });
         //eslint-disable-next-line
-    }, []);
+    }, [data]);
+
+    const onPageChange = (event: any) => {
+        const newOffset =
+            (event.selected * itemsPerPage) % data.getItemsByFilter.length;
+        const newEndOffset = newOffset + itemsPerPage;
+        setCurrentItems(data.getItemsByFilter.slice(newOffset, newEndOffset));
+    };
 
     const handleAddItem = () => {
         setIsAddItem(false);
@@ -38,25 +56,29 @@ export const ItemLayout = () => {
         });
     };
 
-    const renderItems = () : React.ReactElement | JSX.Element => {
+    const renderItems = (): React.ReactElement | JSX.Element => {
         if (loading)
             return (
                 <div className="absolute flex justify-center z-10 mx-auto w-full left-0 right-0 loading p-10">
                     <span className="btn btn-lg btn-square loading"></span>
                 </div>
             );
-        if (data)
-            return data.getItemsByFilter.map((item: Items) => (
-                <Item item={item} key={item.id} />
-            ));
+        if (currentItems.length)
+            return (
+                <>
+                    {currentItems.map((item: Items) => (
+                        <Item item={item} key={item.id} />
+                    ))}
+                </>
+            );
         return <></>;
     };
 
-    const renderAddItemModal = () : React.ReactElement | JSX.Element => {
+    const renderAddItemModal = (): React.ReactElement | JSX.Element => {
         if (isAddItem)
             return (
                 <div className="modal-box bg-gray-800">
-                        <h1 className="text-white ml-5">Add New Item</h1>
+                    <h1 className="text-white ml-5">Add New Item</h1>
                     <div className="flex flex-wrap justify-around">
                         <input
                             type="text"
@@ -156,6 +178,24 @@ export const ItemLayout = () => {
                     </button>
                 </div>
                 {renderItems()}
+
+                
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={(e) => onPageChange(e)}
+                    pageRangeDisplayed={5}
+                    pageCount={page}
+                    previousLabel="< previous"
+                    marginPagesDisplayed={1}
+                    containerClassName={`react-paginate flex w-full items-center justify-center my-10`}
+                    previousLinkClassName={`btn btn-sm`}
+                    nextLinkClassName={`btn btn-sm`}
+                    pageClassName={`btn btn-sm m-1`}
+                    activeClassName={`btn-primary`}
+                    
+                />
+                
             </div>
         </div>
     );
