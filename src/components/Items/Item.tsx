@@ -1,8 +1,8 @@
-import { Items } from "../../graphQL/Types";
-import { DELETE_ITEM, EDIT_ITEM, ADD_SELL_ITEM } from "../../graphQL/mutation";
-import { useMutation } from "@apollo/client";
-import { FILTER_ITEMS, FILTER_TRANSACTION } from "../../graphQL/query";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { Items } from "../../graphQL/Types";
+import { FILTER_ITEMS, FILTER_TRANSACTION } from "../../graphQL/query";
+import { DELETE_ITEM, EDIT_ITEM, ADD_SELL_ITEM } from "../../graphQL/mutation";
 
 type Props = {
     item: Items;
@@ -31,6 +31,7 @@ export const Item = ({ item }: Props) => {
     });
     const [addSellItem] = useMutation(ADD_SELL_ITEM);
     const [itemQuantity, setItemQuantity] = useState<number>(0);
+
 
     const handleEdit = () => {
         //end editing & fire update to graphql.mutate
@@ -80,7 +81,7 @@ export const Item = ({ item }: Props) => {
                                     })
                                 }
                             >
-                                ADD
+                                Submit
                             </button>
                             <button
                                 className="btn"

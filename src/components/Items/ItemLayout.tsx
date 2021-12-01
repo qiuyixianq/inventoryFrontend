@@ -1,11 +1,13 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { FILTER_ITEMS } from "../../graphQL/query";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { Items } from "../../graphQL/Types";
-import { ItemSearch } from "./ItemSearch";
-import { Item } from "./Item";
+import { FILTER_ITEMS } from "../../graphQL/query";
 import { ADD_ITEM } from "../../graphQL/mutation";
+import { Item } from "./Item";
+import { ItemSearch } from "./ItemSearch";
+
 import ReactPaginate from "react-paginate";
+
 
 export type Filters = {
     name?: string;
@@ -30,7 +32,6 @@ export const ItemLayout = () => {
     const [page, setPage] = useState<number>(0);
     const itemsPerPage: number = 5;
 
-    
     //fetch data for the 1st time
     useEffect(() => {
         getItemsByFilter().then((res) => {
@@ -38,12 +39,10 @@ export const ItemLayout = () => {
             setCurrentItems(res.data.getItemsByFilter.slice(0, endOffset));
             setPage(Math.ceil(res.data.getItemsByFilter.length / itemsPerPage));
         });
-        //eslint-disable-next-line
-    }, [data]);
+    }, [data, getItemsByFilter]);
 
-    const onPageChange = (event: any) => {
-        const newOffset =
-            (event.selected * itemsPerPage) % data.getItemsByFilter.length;
+    const onPageChange = (event: { selected: number }) => {
+        const newOffset = (event.selected * itemsPerPage) % data.getItemsByFilter.length;
         const newEndOffset = newOffset + itemsPerPage;
         setCurrentItems(data.getItemsByFilter.slice(newOffset, newEndOffset));
     };
@@ -177,9 +176,9 @@ export const ItemLayout = () => {
                         </svg>
                     </button>
                 </div>
+
                 {renderItems()}
 
-                
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel="next >"
@@ -191,11 +190,9 @@ export const ItemLayout = () => {
                     containerClassName={`react-paginate flex w-full items-center justify-center my-10`}
                     previousLinkClassName={`btn btn-sm`}
                     nextLinkClassName={`btn btn-sm`}
-                    pageClassName={`btn btn-sm m-1`}
-                    activeClassName={`btn-primary`}
-                    
+                    pageLinkClassName={`btn btn-sm m-1`}
+                    activeLinkClassName={`btn-primary`}
                 />
-                
             </div>
         </div>
     );
